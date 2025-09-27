@@ -276,35 +276,35 @@ function CharacterComponent(){
     }
 
     //DOWNLOADING CHARACTER
-    function downloadCharacter(){
-        console.log("downloading character in computer");
-        //To generate a txt file containing the character's data we first have to create a blob
-        //create a new React (html) element, we are creating an <a> element to allow using an href later
-        const element = document.createElement("a");
-        
-        //create the variable file which is  anew Blob containing the string of the character
-        //the constructor of the blob object receives an array of data
-        //the created blob contains a concatenation of all the data passed in the array in the constructor
-        const file = new Blob([format()], {
-        //the type of file
-        type: "text/plain"
-        });
+    async function downloadCharacter() {
+        const texContent = format(); // your function that returns the .tex as string
 
-        //add to the a element a clickable link
-        //the clickable link is the url created with URL.createObjectURL,
-        //which creates a string containing the url pointing to the object given (file, which is our blob object)
-        element.href = URL.createObjectURL(file);
-        //to the <a> element we are adding a download attribute, which downloads the file instead of navigating to it when clicking the link
-        element.download = `${character.name}.tex`;
-        //we "render" the element <a> by appending it to the body
-        document.body.appendChild(element);
-        //click the element which automatically clicks the link
-        element.click();
+        // Prepare form data to send
+        const formData = new FormData();
+        // Create a "file" object from the tex string
+        const blob = new Blob([texContent], { type: "text/plain" });
+        formData.append("texfile", blob, `${character.name}.tex`);
 
-        //all of these instructions with the element are basically like writing
-        //<a href="blob/url/myfile.txt" download/>
-        //and then have the user click this
+        try {
+            const response = await fetch("http://13.60.74.149/generate-pdf", {
+            method: "POST",
+            body: formData,
+            });
+
+            if (!response.ok) throw new Error("Failed to generate PDF");
+
+            const pdfBlob = await response.blob();
+            const url = window.URL.createObjectURL(pdfBlob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${character.name}.pdf`;
+            link.click();
+        } catch (err) {
+            console.error(err);
+            alert("Error generating PDF");
+        }
     }
+
 
     function format(){
         const finalString = String.raw`\documentclass[11pt]{article}
