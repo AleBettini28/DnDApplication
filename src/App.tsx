@@ -13,7 +13,7 @@ import NoteTaker from './NoteTaker';
 function App() {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/DnDApplication">
       <Routes>
           <Route path='/' element={<MainMenu/>}></Route>
           <Route path='/character-builder' element={<CharacterComponent/>}></Route>
