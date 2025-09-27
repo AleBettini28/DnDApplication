@@ -1,0 +1,388 @@
+D&D WIKI
+
+This is a React Application that works as a Dungeon and Dragons Wiki to use during game sessions.
+
+- How does this work
+
+The Application allow to select a category and search an item in that category thanks to input fields.
+
+All the information are taken from the D&D API at this link: "https://www.dnd5eapi.co/api/".
+
+- Input Management
+
+The input is taken from an input textfield and a select field:
+
+\begin{verbatim}
+    <div className='top-banner'>
+        <h1>API Test</h1>
+        <form onSubmit={e => {
+            e.preventDefault(); // Prevents page reload
+            fetchContent()
+        }}>
+            <select className='dnd-input' name="category" id="category" onChange={handleCategoryChange}>
+                <option value="spells">Spells</option>
+                ...
+                <option value="rule-sections">Rule Sections</option>
+            </select>
+            <input className='dnd-input' type="text" autoFocus name="search" id="search" required onChange={handleItemChange}></input>
+            <br></br>
+            <br></br>
+            <button className='dnd-button'>Search</button>
+        </form>
+    </div>
+\end{verbatim}
+
+- Fetching data
+
+When the form is confirmed with either [Enter] or by pressing the button [Search] the function fetchContent() is called:
+
+\begin{verbatim}
+    function fetchContent(){
+        fetch(`https://www.dnd5eapi.co/api/${category}/${item}`)
+        .then((res) => res.json())
+        .then((data) => {
+            setResult(data)
+            setSuccess(true)
+            console.log(data);
+        })
+        .catch((error) => {
+            setSuccess(false)
+            console.error('Error fetching data:', error);
+        });
+    };
+\end{verbatim}
+
+This function calls the javascript function fetch() to call the api and retrieve the data.
+It then checks if the call was succesfull with .then or if an error was catched with .catch
+
+If the api call was succesfull the data read are set in result useState which is declared at the top of the script:
+
+\begin{verbatim}
+    const [result, setResult] = useState()
+\end{verbatim}
+
+The success useState is set true when the data are read succesfully, false if there was an error.
+
+- Showing data
+
+Based on the value of the success useState the let resultContent content is defined:
+
+\begin{verbatim}
+    let resultContent;
+
+    if (success) {
+    resultContent = (
+            <div className='container'>
+                <div className="result-showcase">
+                    <h2>{result.name}</h2>
+                    <JSONViewer data={result} link={`/api/2014/${category}/${item}`}/>
+                    <img src={prefix + result.image} alt={result.name} />
+                </div>
+
+                {sideSuccess && (
+                    <div className="side-div">
+                        <h2>{sideResult.name}</h2>
+                        <button className='top-right-button' onClick={() => {
+                            closeSideContent()
+                        }}>X</button>
+                        <JSONViewer data={sideResult} link={sideLabel}/>
+                        <img src={prefix + sideResult.image} alt={sideResult.name} />
+                    </div>
+                )}
+            </div>
+        );
+    } else {
+        resultContent = (
+            <>
+                <p className='custom-error'> Input was either non-existent or null </p>
+                <br></br>
+                <p className='custom-error'> Insert a correct input to search succesfully </p>
+            </>
+        )
+    };
+
+\end{verbatim}
+
+This resultContent is then showed in the return:
+
+\begin{verbatim}
+    {resultContent}
+\end{verbatim}
+
+- JSONViewer
+
+The JSONViewer is a Component declared inside the MainMenu Component and it is used to show JSON in a pretty and readable way.
+
+\begin{verbatim}
+    type JSONViewerProps = {
+    readonly data: any;
+    readonly link: string;
+    };
+
+    function JSONViewer({ data, link }: JSONViewerProps) {
+        if (typeof data === 'object' && data !== null) {
+            return (
+            <ul>
+                {Object.entries(data).map(([key, value]) => {
+                    if(key === 'url' && value !== link){
+                        return (
+                            <li key={key}>
+                                <strong>{key}:</strong>
+                                <button className='link-button' onClick={() => {
+                                    fetchSideContent(String(value))
+                                }}>
+                                    {String(value)}
+                                </button>
+                            </li>
+                        )
+                    } else {
+                        return (
+                            <li key={key}>
+                                <strong>{key}:</strong> <JSONViewer data={value} link =''/>
+                            </li>
+                        )
+                    };
+                })}
+            </ul>
+            )
+        } else {
+            return <span>{String(data)}</span>;
+        }
+    }
+
+\end{verbatim}
+
+- Side Content
+
+Inside the main content will occasionally appear some clicakble links routing to other content of the API.
+The click action of these links is dealed in the JSONViewer which finds them and sets them as clickable buttons.
+When clicked, the function fetchSideContent is called, passing in input a string value representing the given path.
+
+\begin{verbatim}
+    function fetchSideContent(label: string){
+        fetch(`https://www.dnd5eapi.co${label}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setSideResult(data)
+                setSideSuccess(true)
+                setSideLabel(label)
+                console.log(data);
+            })
+            .catch((error) => {
+                setSideSuccess(false)
+                console.error('Error fetching data:', error);
+            });
+    };
+\end{verbatim}
+
+This function executes another call to the API equal to the one in fetchContent().
+When succesfull the function sets the sideResult data, the sideSuccess and the sideLabel value which are all useStates defined in the MainMenu Component.
+So now, thanks to the if in the letContent return content, a side content containing the data retrieved from the call is shown next to the main content.
+
+In this sideContent there is also a close button positioned on the top right which closes the sideContent calling the function closeSideContent():
+
+\begin{verbatim}
+  function closeSideContent(){
+      //closes side content
+      setSideSuccess(false)
+  }
+\end{verbatim}
+
+D&D Character Builder
+
+To the D&D Wiki Application I now added a new section with a simple character builder where the user can create their character and then see it and consult the values needed.
+
+- Character Interface
+
+The character parameteres are defined in this interface:
+
+\begin{verbatim}
+    interface Character {
+        name: string;
+        playerName: string;
+        level: string;
+        class: string;
+        race: string;
+        alignment: string;
+        statistics: {
+            hp: string;
+            ac: string;
+            profBonus: string;
+        };
+        ability: {
+            str: string;
+            dex: string;
+            con: string;
+            int: string;
+            wis: string;
+            cha: string;
+        };
+    }
+\end{verbatim}
+
+- Create the character
+
+When the user first opens up the page he will see a message saying there is no character saved and a button to start creating one
+This is managed in a similar way to the showed content in MainMenu, with a let characterContent, we check if the created useState is true (which is saved in localStorage).
+If it is true the character's information is showed.
+If it is false the button is showed.
+This happens thanks to this code segment: 
+
+\begin{verbatim}
+    let characterContent;
+
+    if(created){
+        characterContent = (
+            <div className='top-banner'>
+                <h1>Your Character</h1>
+                <p><strong>Player:</strong> {character.playerName}</p>
+                <p><strong>Name:</strong> {character.name}</p>
+                <p><strong>Class:</strong> {character.class}</p>
+                <p><strong>Race:</strong>  {character.race}</p>
+                <p><strong>Level:</strong>  {character.level}</p>
+                <p><strong>Alignment:</strong> {character.alignment}</p>
+                <p><strong>STATISTICS:</strong></p>
+                <p><strong>HP:</strong> {character.statistics.hp}</p>
+                <p><strong>AC:</strong> {character.statistics.ac}</p>
+                <p><strong>Proficiency Bonus:</strong> {character.statistics.profBonus}</p>
+                <p><strong>ABILITIES SCORES:</strong></p>
+                <strong> STR:</strong> {character.ability.str}&nbsp;&nbsp;&nbsp;
+                <strong> DEX:</strong> {character.ability.dex}&nbsp;&nbsp;&nbsp;
+                <strong> CON:</strong> {character.ability.con}&nbsp;&nbsp;&nbsp;
+                <strong> INT:</strong> {character.ability.int}&nbsp;&nbsp;&nbsp;
+                <strong> WIS:</strong> {character.ability.wis}&nbsp;&nbsp;&nbsp;
+                <strong> CHA:</strong> {character.ability.cha}&nbsp;&nbsp;&nbsp;
+                <br></br>
+                <br></br>
+                <button className='dnd-button' onClick={() => {
+                    StartCreation();
+                }}>Create New Character</button>
+                <br></br>
+                <br></br>
+            </div>
+        )    
+    }
+    else if(!isCreating){
+        characterContent = (
+            <>
+                <br></br>
+                <p className='custom-error'>No character created</p>
+                <button className='dnd-button' onClick={() => {
+                    StartCreation()
+                }}>Create a new Character</button>
+            </>
+        )
+    }
+\end{verbatim}
+
+When the user clicks the create button the function StartCreation is called:
+
+\begin{verbatim}
+    const [isCreating, setIsCreating] = useState(false);
+
+    function StartCreation(){
+        setIsCreating(true);
+        setCreated(false);
+    }
+\end{verbatim}
+
+This function set isCreating useState to true e created to false.
+Then with this code segment the same thing happens and isCreating being true the form to create the character is showed:
+
+\begin{verbatim}
+    if(isCreating){
+        characterCreation = (
+            <div className='top-banner'>
+                <h1>Build your own Character</h1>
+                <form onSubmit={e => {
+                    e.preventDefault(); // Prevents page reload
+                    createCharacter()
+                }}>
+                    ... input fields ...
+                </form>
+            </div>
+        )
+    } else{
+        characterCreation = (
+            <>
+            </>
+        )
+    }
+\end{verbatim}
+
+When the form is submitted the function createCharacter() is called:
+
+\begin{verbatim}
+    function createCharacter(){
+        setCreated(true);
+        setIsCreating(false);
+    }
+\end{verbatim}
+
+This set created to true, allowing the segment showed before to render the character's information and data.
+
+- Saving and loading
+
+The character is obviously both saved and loaded thanks to useStates and useEffects with localStorage:
+
+\begin{verbatim}
+    const [character, setCharacter] = useState<Character>(() => {
+        const saved = localStorage.getItem("character");
+        return saved ? JSON.parse(saved) : {
+            name: '',
+            playerName: '',
+            level: '',
+            class: '',
+            race: '',
+            alignment: '',
+            statistics: { hp: '0', ac: '0', profBonus: '0' },
+            ability: { str: '0', dex: '0', con: '0', int: '0', wis: '0', cha: '0' },
+        };
+    });
+
+    useEffect(() => {
+        localStorage.setItem("character", JSON.stringify(character));
+    }, [character]);
+\end{verbatim}
+
+TAKE NOTES
+
+A new page in this D&D React Application is the Take Notes page, loaded from the NoteTaker Component.
+
+- Take Notes
+
+This page allows the user to take notes during the sessions and see them written besides instantly.
+In the page there are 2 divs, on the left and on the right.
+The left one shows the notes from the useState while the right one has a textarea for the input.
+
+\begin{verbatim}
+    <h1>Take notes of your session!</h1>
+      <div className='notes-container'>
+        <div className='left-notes-div'>
+          <div>{notes}</div>
+        </div>
+        <div className='right-notes-div'>
+          <textarea
+            rows={20}
+            className='dnd-input-textarea'
+            placeholder='notes...'
+            autoFocus
+            value={notes}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+\end{verbatim}
+
+The notes are saved and loaded thank to localStorage as everything else:
+
+\begin{verbatim}
+    const [notes, setNotes] = useState(() => {
+        const saved = localStorage.getItem("notes");
+        return saved || '';
+    });
+
+    useEffect(() => {
+        localStorage.setItem("notes", notes);
+    }, [notes]);
+\end{verbatim}

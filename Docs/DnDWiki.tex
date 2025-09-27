@@ -1,0 +1,548 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+
+\usepackage{float}
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][2] {
+    \expandafter\origfigure\expandafter[H]
+} {
+    \endorigfigure
+}
+
+
+\usepackage[margin=2.5cm]{geometry}
+\renewcommand*\contentsname{Sommario}
+
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\fancypagestyle{firstpage}{
+
+\lhead{\raisebox{0.2\height}{\includegraphics[width=3cm]{uploads/ipluslogo.png}}}
+\chead{\footnotesize DnD Wiki}
+\rhead{\footnotesize Versione 00}
+
+\lfoot{\small \bfseries iPlus Service srl \\ \tiny \mdseries Milano – Via Ascanio Sforza, 65 – Tel. +39 02 500 20 850 \\ Morbegno – Via Fumagalli, 34 – Tel. +39 0342 610 111}   
+\cfoot{}  
+\rfoot{\tiny www.iplusservice.it \\ P.I./C.F. 00886720143 \\ Cap. Sociale 100.000€ i.v.}
+
+\renewcommand{\headrulewidth}{0.1pt} 
+\renewcommand{\footrulewidth}{0.1pt}
+}
+
+% Define header and footer
+\pagestyle{fancy}
+\setlength{\headheight}{28pt}
+\lhead{\raisebox{0.2\height}{\includegraphics[width=3cm]{uploads/ipluslogo.png}}}
+\chead{\footnotesize DnD Wiki}
+\rhead{\footnotesize Versione 00}
+
+\lfoot{\footnotesize \bfseries iPlus Service srl \\ \scriptsize \mdseries L’innovazione digitale per la tua azienda}   
+\cfoot{}  
+\rfoot{\thepage}    
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+
+    \newfontfamily{\TitilliumWeb}[
+      Extension = .ttf,
+      Ligatures = TeX,
+      UprightFont = *-Regular,
+      BoldFont = *-Bold
+    ]{TitilliumWeb}
+
+    \setmainfont[
+      Extension = .ttf, 
+      UprightFont = *-Regular, 
+      BoldFont = *-Bold
+    ]{TitilliumWeb}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+
+
+  \thispagestyle{firstpage}
+	\centering
+  {\Huge \textsc{}\par}
+	\vspace{2cm}
+  {\Huge \textsc{}\par}
+	\vspace{2cm}
+	{\fontsize{48}{50}\selectfont \textsc{Manuale}\par}
+	\vspace{1cm}
+	{\LARGE \textsc{DnD Wiki}\par}
+	\vfill
+
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+Versione & Data & Redazione & Verifica & Messaggio \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+00 & 23.09.2025 & A.Bettini & A.Bettini & Emissione iniziale \\
+\end{longtable}
+
+\newpage
+\setcounter{tocdepth}{4}
+\tableofcontents
+\begin{flushleft}
+
+\newpage
+
+\newpage
+\section{1 DnD WIKI}\label{to-do-react-application}
+
+This is a \textbf{React Application} that works as a Dungeon and Dragons Wiki to use during game sessions.
+
+\subsection{1.1 How does this work}\label{how-works}
+
+The Application allow to select a category and search an item in that category thanks to input fields.
+
+All the information are taken from the DnD API at this link: "https://www.dnd5eapi.co/api/".
+
+\subsection{1.2 Input Management}\label{input-management}
+
+The input is taken from an input textfield and a select field:
+
+\begin{verbatim}
+    <div className='top-banner'>
+        <h1>API Test</h1>
+        <form onSubmit={e => {
+            e.preventDefault(); // Prevents page reload
+            fetchContent()
+        }}>
+            <select className='dnd-input' name="category" id="category" onChange={handleCategoryChange}>
+                <option value="spells">Spells</option>
+                ...
+                <option value="rule-sections">Rule Sections</option>
+            </select>
+            <input className='dnd-input' type="text" autoFocus name="search" id="search" required onChange={handleItemChange}></input>
+            <br></br>
+            <br></br>
+            <button className='dnd-button'>Search</button>
+        </form>
+    </div>
+\end{verbatim}
+
+\subsection{1.3 Fetching Data}\label{fetching-data}
+
+When the form is confirmed with either \textbf{[Enter]} or by pressing the button \textbf{[Search]} the function \textbf{fetchContent()} is called:
+
+\begin{verbatim}
+    function fetchContent(){
+        fetch(`https://www.dnd5eapi.co/api/${category}/${item}`)
+        .then((res) => res.json())
+        .then((data) => {
+            setResult(data)
+            setSuccess(true)
+            console.log(data);
+        })
+        .catch((error) => {
+            setSuccess(false)
+            console.error('Error fetching data:', error);
+        });
+    };
+\end{verbatim}
+
+This function calls the \textbf{javascript function fetch()} to call the api and retrieve the data.
+It then checks if the call was succesfull with \textbf{.then} or if an error was catched with \textbf{.catch}
+
+If the api call was succesfull the data read are set in result useState which is declared at the top of the script:
+
+\begin{verbatim}
+    const [result, setResult] = useState()
+\end{verbatim}
+
+The success useState is set true when the data are read succesfully, false if there was an error.
+
+\subsection{1.4 Showing Data}\label{showing-data}
+
+Based on the value of the success useState the \textbf{let resultContent} content is defined:
+
+\begin{verbatim}
+  let resultContent;
+
+    if (success) {
+    resultContent = (
+            <div className='container'>
+                <div className="result-showcase">
+                    <h2>{result.name}</h2>
+                    <JSONViewer data={result} link={`/api/2014/${category}/${item}`}/>
+                    <img src={prefix + result.image} alt={result.name} />
+                </div>
+
+                {sideSuccess && (
+                    <div className="side-div">
+                        <h2>{sideResult.name}</h2>
+                        <button className='top-right-button' onClick={() => {
+                            closeSideContent()
+                        }}>X</button>
+                        <JSONViewer data={sideResult} link={sideLabel}/>
+                        <img src={prefix + sideResult.image} alt={sideResult.name} />
+                    </div>
+                )}
+            </div>
+        );
+    } else {
+        resultContent = (
+            <>
+                <p className='custom-error'> Input was either non-existent or null </p>
+                <br></br>
+                <p className='custom-error'> Insert a correct input to search succesfully </p>
+            </>
+        )
+    };
+\end{verbatim}
+
+This \textbf{resultContent} is then showed in the return:
+
+\begin{verbatim}
+    {resultContent}
+\end{verbatim}
+
+\subsection{1.5 JSONViewer}\label{JSONViewer}
+
+The \textbf{JSONViewer} is a Component declared inside the MainMenu Component and it is used to show JSON in a pretty and readable way.
+
+\begin{verbatim}
+    type JSONViewerProps = {
+    readonly data: any;
+    readonly link: string;
+    };
+
+    function JSONViewer({ data, link }: JSONViewerProps) {
+        if (typeof data === 'object' && data !== null) {
+            return (
+            <ul>
+                {Object.entries(data).map(([key, value]) => {
+                    if(key === 'url' && value !== link){
+                        return (
+                            <li key={key}>
+                                <strong>{key}:</strong>
+                                <button className='link-button' onClick={() => {
+                                    fetchSideContent(String(value))
+                                }}>
+                                    {String(value)}
+                                </button>
+                            </li>
+                        )
+                    } else {
+                        return (
+                            <li key={key}>
+                                <strong>{key}:</strong> <JSONViewer data={value} link =''/>
+                            </li>
+                        )
+                    };
+                })}
+            </ul>
+            )
+        } else {
+            return <span>{String(data)}</span>;
+        }
+    }
+\end{verbatim}
+
+\subsection{1.6 Side Content}\label{sidecontent}
+
+Inside the main content will occasionally appear some \textbf{clickable links} routing to other content of the API.
+The click action of these links is dealed in the JSONViewer which finds them and sets them as clickable buttons.
+When clicked, the function \textbf{fetchSideContent} is called, passing in input a string value representing the given path.
+
+\begin{verbatim}
+    function fetchSideContent(label: string){
+        fetch(`https://www.dnd5eapi.co${label}`)
+          .then((res) => res.json())
+          .then((data) => {
+            setSideResult(data)
+            setSideSuccess(true)
+            setSideLabel(label)
+            console.log(data);
+          })
+          .catch((error) => {
+            setSideSuccess(false)
+            console.error('Error fetching data:', error);
+          });
+    };
+\end{verbatim}
+
+This function executes another call to the API equal to the one in fetchContent().
+When succesfull the function sets the \textbf{sideResult} data, the \textbf{sideSuccess} and the \textbf{sideLabel} value which are all useStates defined in the MainMenu Component.
+So now, thanks to the if in the letContent return content, a \textbf{side content} containing the data retrieved from the call is shown next to the main content.
+
+In this sideContent there is also a close button positioned on the top right which closes the sideContent calling the function \textbf{closeSideContent()}:
+
+\begin{verbatim}
+  function closeSideContent(){
+      //closes side content
+      setSideSuccess(false)
+  }
+\end{verbatim}
+
+\newpage
+\section{2 DnD Character Builder}\label{builder}
+
+To the DnD Wiki Application I now added a new section with a simple character builder where the user can create their character and then see it and consult the values needed.
+
+\subsection{2.1 Character Interface}\label{interface}
+
+The character parameteres are defined in this \textbf{interface}:
+
+\begin{verbatim}
+    interface Character {
+        name: string;
+        playerName: string;
+        level: string;
+        class: string;
+        race: string;
+        alignment: string;
+        statistics: {
+            hp: string;
+            ac: string;
+            profBonus: string;
+        };
+        ability: {
+            str: string;
+            dex: string;
+            con: string;
+            int: string;
+            wis: string;
+            cha: string;
+        };
+    }
+\end{verbatim}
+
+\subsection{2.2 Create the Character}\label{creastion}
+
+When the user first opens up the page he will see a message saying there is no character saved and a button to start creating one
+This is managed in a similar way to the showed content in MainMenu, with a \textbf{let characterContent}, we check if the created useState is true (which is saved in localStorage).
+If it is true the character's information is showed.
+If it is false the button is showed.
+This happens thanks to this code segment: 
+
+\begin{verbatim}
+    let characterContent;
+
+    if(created){
+        characterContent = (
+            <div className='top-banner'>
+                <h1>Your Character</h1>
+                <p><strong>Player:</strong> {character.playerName}</p>
+                <p><strong>Name:</strong> {character.name}</p>
+                <p><strong>Class:</strong> {character.class}</p>
+                <p><strong>Race:</strong>  {character.race}</p>
+                <p><strong>Level:</strong>  {character.level}</p>
+                <p><strong>Alignment:</strong> {character.alignment}</p>
+                <p><strong>STATISTICS:</strong></p>
+                <p><strong>HP:</strong> {character.statistics.hp}</p>
+                <p><strong>AC:</strong> {character.statistics.ac}</p>
+                <p><strong>Proficiency Bonus:</strong> {character.statistics.profBonus}</p>
+                <p><strong>ABILITIES SCORES:</strong></p>
+                <strong> STR:</strong> {character.ability.str}&nbsp;&nbsp;&nbsp;
+                <strong> DEX:</strong> {character.ability.dex}&nbsp;&nbsp;&nbsp;
+                <strong> CON:</strong> {character.ability.con}&nbsp;&nbsp;&nbsp;
+                <strong> INT:</strong> {character.ability.int}&nbsp;&nbsp;&nbsp;
+                <strong> WIS:</strong> {character.ability.wis}&nbsp;&nbsp;&nbsp;
+                <strong> CHA:</strong> {character.ability.cha}&nbsp;&nbsp;&nbsp;
+                <br></br>
+                <br></br>
+                <button className='dnd-button' onClick={() => {
+                    StartCreation();
+                }}>Create New Character</button>
+                <br></br>
+                <br></br>
+            </div>
+        )    
+    }
+    else if(!isCreating){
+        characterContent = (
+            <>
+                <br></br>
+                <p className='custom-error'>No character created</p>
+                <button className='dnd-button' onClick={() => {
+                    StartCreation()
+                }}>Create a new Character</button>
+            </>
+        )
+    }
+\end{verbatim}
+
+When the user clicks the create button the function \textbf{StartCreation} is called:
+
+\begin{verbatim}
+    const [isCreating, setIsCreating] = useState(false);
+
+    function StartCreation(){
+        setIsCreating(true);
+        setCreated(false);
+    }
+\end{verbatim}
+
+This function set \textbf{isCreating} useState to true e created to false.
+Then with this code segment the same thing happens and isCreating being true the form to create the character is showed:
+
+\begin{verbatim}
+    if(isCreating){
+        characterCreation = (
+            <div className='top-banner'>
+                <h1>Build your own Character</h1>
+                <form onSubmit={e => {
+                    e.preventDefault(); // Prevents page reload
+                    createCharacter()
+                }}>
+                    ... input fields ...
+                </form>
+            </div>
+        )
+    } else{
+        characterCreation = (
+            <>
+            </>
+        )
+    }
+\end{verbatim}
+
+When the form is submitted the function \textbf{createCharacter()} is called:
+
+\begin{verbatim}
+    function createCharacter(){
+        setCreated(true);
+        setIsCreating(false);
+    }
+\end{verbatim}
+
+This set created to true, allowing the segment showed before to render the \textbf{character's information and data}.
+
+\subsection{2.3 Saving and Loading}\label{charloadingsaving}
+
+The character is obviously both \textbf{saved and loaded} thanks to useStates and useEffects with localStorage:
+
+\begin{verbatim}
+    const [character, setCharacter] = useState<Character>(() => {
+        const saved = localStorage.getItem("character");
+        return saved ? JSON.parse(saved) : {
+            name: '',
+            playerName: '',
+            level: '',
+            class: '',
+            race: '',
+            alignment: '',
+            statistics: { hp: '0', ac: '0', profBonus: '0' },
+            ability: { str: '0', dex: '0', con: '0', int: '0', wis: '0', cha: '0' },
+        };
+    });
+
+    useEffect(() => {
+        localStorage.setItem("character", JSON.stringify(character));
+    }, [character]);
+\end{verbatim}
+
+\newpage
+\section{3 DnD Take Notes}\label{takenotes}
+
+A new page in this DnD React Application is the Take Notes page, loaded from the NoteTaker Component.
+
+\subsection{3.1 Take Notes}\label{notes}
+
+This page allows the user to \textbf{take notes} during the sessions and see them written besides instantly.
+In the page there are 2 divs, on the left and on the right.
+The left one shows the notes from the useState while the right one has a \textbf{textarea} for the input.
+
+\begin{verbatim}
+    <h1>Take notes of your session!</h1>
+      <div className='notes-container'>
+        <div className='left-notes-div'>
+          <div>{notes}</div>
+        </div>
+        <div className='right-notes-div'>
+          <textarea
+            rows={20}
+            className='dnd-input-textarea'
+            placeholder='notes...'
+            autoFocus
+            value={notes}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+\end{verbatim}
+
+The notes are saved and loaded thank to \textbf{localStorage} as everything else:
+
+\begin{verbatim}
+    const [notes, setNotes] = useState(() => {
+        const saved = localStorage.getItem("notes");
+        return saved || '';
+    });
+
+    useEffect(() => {
+        localStorage.setItem("notes", notes);
+    }, [notes]);
+\end{verbatim}
+
+\end{flushleft}
+\end{document}
