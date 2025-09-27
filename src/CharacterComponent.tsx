@@ -286,7 +286,7 @@ function CharacterComponent(){
         formData.append("texfile", blob, `${character.name}.tex`);
 
         try {
-            const response = await fetch("http://13.60.74.149/generate-pdf", {
+            const response = await fetch("https://13.60.74.149/generate-pdf", {
             method: "POST",
             body: formData,
             });
