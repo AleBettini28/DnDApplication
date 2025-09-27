@@ -108,13 +108,13 @@ function CharacterComponent(){
 
     function handleNestedChange(e: BaseSyntheticEvent) {
         const { name, value } = e.target;
-        const [section, key] = name.split('.');
+        const [section, key] = name.split('.') as ["statistics" | "ability", string];
 
         setCharacter((prev) => ({
             ...prev,
             [section]: {
-            ...prev[section],
-            [key]: parseInt(value),
+            ...prev[section as "statistics" | "ability"],
+            [key]: value, // keep as string for consistency
             },
         }));
     }
